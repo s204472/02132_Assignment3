@@ -20,7 +20,7 @@ class Accelerator extends Module {
 
 
   //State enum and register
-  val idle :: borderCheck :: check1 :: check2 :: check3 :: check4 :: check5 :: increment :: setBlack2 :: done :: Nil = Enum (10)
+  val idle :: borderCheck :: check1 :: check2 :: check3 :: check4 :: check5 :: increment :: setBlack :: done :: Nil = Enum (10)
 
 
   val stateReg = RegInit(idle)
@@ -43,7 +43,134 @@ class Accelerator extends Module {
   io.done := false.B
 
   //FSMD switch
+  switch(stateReg) {
+    is(idle) {
+      when(io.start) {
+        xReg := 0.U(32.W)
+        yReg := 0.U(32.W)
+        stateReg := borderCheck
+      }
+    }
 
+    is (borderCheck) {
+      when(yReg === 19.U(32.W) && xReg != 19.U(32.W)) {
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+
+        yReg := 0.U(32.W)
+        xReg := xReg + 1.U(32.W)
+      } .elsewhen (xReg === 0.U(32.W) || yReg === 0.U(32.W) || xReg === 19.U(32.W) && yReg != 19.U(32.W)) {
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        yReg := yReg + 1.U(32.W)
+      } .elsewhen (xReg === 19.U(32.W) && yReg === 19.U(32.W)) {
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        stateReg := done
+      } .otherwise {
+        io.address := xReg * 20.U(32.W) + yReg
+        pixelReg := io.dataRead
+        stateReg := check1
+      }
+    }
+    is (check1) {
+      when (pixelReg === 0.U(32.W)){
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        stateReg := setBlack
+      } .otherwise {
+        pixelReg := io.dataRead
+        io.address := xReg * 20.U(32.W) + yReg - 1.U(32.W)
+        stateReg := check2
+      }
+    }
+    is (check2) {
+      when (pixelReg === 0.U(32.W)){
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        yReg := yReg + 1.U(32.W)
+        stateReg := borderCheck
+      } .otherwise {
+        pixelReg := io.dataRead
+        io.address := xReg * 20.U(32.W) + yReg + 1.U(32.W)
+        stateReg := check3
+      }
+    }
+    is (check3) {
+      when (pixelReg === 0.U(32.W)){
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        yReg := yReg + 1.U(32.W)
+        stateReg := borderCheck
+      } .otherwise {
+        pixelReg := io.dataRead
+        io.address := (xReg - 1.U(32.W)) * 20.U(32.W) + yReg
+        stateReg := check4
+      }
+    }
+    is (check4) {
+      when (pixelReg === 0.U(32.W)){
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        yReg := yReg + 1.U(32.W)
+        stateReg := borderCheck
+      } .otherwise {
+        pixelReg := io.dataRead
+        io.address := (xReg + 1.U(32.W)) * 20.U(32.W) + yReg
+        stateReg := check5
+      }
+    }
+    is (check5) {
+      when (pixelReg === 0.U(32.W)){
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        yReg := yReg + 1.U(32.W)
+        stateReg := borderCheck
+      } .otherwise {
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 255.U(32.W)
+        stateReg := borderCheck
+        yReg := yReg + 1.U(32.W)
+      }
+    }
+    is(setBlack){
+      when (yReg < 18.U(32.W)){
+        io.address := xReg * 20.U(32.W) + yReg + 401.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        stateReg := borderCheck
+        yReg := yReg + 2.U(32.W)
+      } .otherwise {
+        io.address := xReg * 20.U(32.W) + yReg + 401.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
+        stateReg := borderCheck
+        yReg := 0.U(32.W)
+        xReg := xReg + 1.U(32.W)
+      }
+    }
+    is(done){
+      io.done := true.B
+    }
+  }
+
+
+
+
+
+
+
+
+/*
   switch(stateReg) {
     is(idle) {
       when(io.start) {
@@ -83,7 +210,7 @@ class Accelerator extends Module {
         io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
         io.writeEnable := true.B
         io.dataWrite := 0.U(32.W)
-        stateReg := setBlack2
+        stateReg := setBlack
       } .otherwise {
         pixelReg := io.dataRead
         io.address := xReg * 20.U(32.W) + yReg - 1.U(32.W)
@@ -146,7 +273,7 @@ class Accelerator extends Module {
       }
     }
 
-    is(setBlack2){
+    is(setBlack){
       stateReg := increment
       io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
       io.writeEnable := true.B
@@ -158,4 +285,7 @@ class Accelerator extends Module {
       io.done := true.B
     }
   }
+  */
+
+
 }
