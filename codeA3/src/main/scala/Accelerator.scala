@@ -12,11 +12,11 @@ class Accelerator extends Module {
     val dataWrite = Output(UInt (32.W))
 
     //The following signals are used by the tester to load and dump the memory contents. Do not touch.
-    val testerDataMemEnable = Input(Bool ())
+    /*val testerDataMemEnable = Input(Bool ())
     val testerDataMemAddress = Input(UInt (16.W))
     val testerDataMemDataRead = Output(UInt (32.W))
     val testerDataMemWriteEnable = Input(Bool ())
-    val testerDataMemDataWrite = Input(UInt (32.W))
+    val testerDataMemDataWrite = Input(UInt (32.W))*/
 
   })
 
@@ -24,7 +24,7 @@ class Accelerator extends Module {
 
 
 
-  val dataMemory = Module(new DataMemory())
+
 
   //State enum and register
   val idle :: borderCheck :: check1 :: check2 :: check3 :: check4 :: check5 :: setWhite :: incrementY :: setBlack1 :: setBlack2 :: setNeighbour1 :: setNeighbour2 :: setNeighbour3 :: setNeighbour4 :: done :: Nil = Enum (16)
@@ -44,9 +44,9 @@ class Accelerator extends Module {
   // sbt "test:runMain HelloTester"
 
   //Default values
-  dataMemory.io.writeEnable := false.B
-  dataMemory.io.address := 0.U(16.W)
-  dataMemory.io.dataWrite := dataReg
+  io.writeEnable := false.B
+  io.address := 0.U(32.W)
+  io.dataWrite := 0.U(32.W)
   io.done := false.B
 
   //FSMD switch
@@ -64,13 +64,13 @@ class Accelerator extends Module {
       when(xReg === 0.U(32.W) || xReg === 19.U(32.W) || yReg === 0.U(32.W) || yReg === 19.U(32.W)) {
         xReg := 0.U(32.W)
         yReg := 0.U(32.W)
-        dataMemory.io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
-        dataMemory.io.writeEnable := true.B
-        dataMemory.io.dataWrite := 0.U(32.W)
+        io.address := xReg * 20.U(32.W) + yReg + 400.U(32.W)
+        io.writeEnable := true.B
+        io.dataWrite := 0.U(32.W)
         stateReg := setBlack1
       } .otherwise {
-        dataMemory.io.address := xReg * 20.U(32.W) + yReg
-        pixelReg := dataMemory.io.dataRead
+        io.address := xReg * 20.U(32.W) + yReg
+        pixelReg := io.dataRead
         stateReg := check1
 
       }
@@ -102,10 +102,10 @@ class Accelerator extends Module {
 
 
   //This signals are used by the tester for loading and dumping the data memory content, do not touch
-  dataMemory.io.testerAddress := io.testerDataMemAddress
+  /*dataMemory.io.testerAddress := io.testerDataMemAddress
   io.testerDataMemDataRead := dataMemory.io.testerDataRead
   dataMemory.io.testerDataWrite := io.testerDataMemDataWrite
   dataMemory.io.testerEnable := io.testerDataMemEnable
-  dataMemory.io.testerWriteEnable := io.testerDataMemWriteEnable
+  dataMemory.io.testerWriteEnable := io.testerDataMemWriteEnable*/
 
 }
