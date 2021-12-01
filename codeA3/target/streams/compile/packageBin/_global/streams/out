@@ -1,0 +1,19 @@
+[debug] Packaging C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\codea3_2.12-0.1.0-SNAPSHOT.jar ...
+[debug] Input file mappings:
+[debug] 	Accelerator$$anon$1.class
+[debug] 	  C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes\Accelerator$$anon$1.class
+[debug] 	Accelerator.class
+[debug] 	  C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes\Accelerator.class
+[debug] 	DataMemory$$anon$1.class
+[debug] 	  C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes\DataMemory$$anon$1.class
+[debug] 	DataMemory.class
+[debug] 	  C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes\DataMemory.class
+[debug] 	Hello$$anon$1.class
+[debug] 	  C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes\Hello$$anon$1.class
+[debug] 	Hello.class
+[debug] 	  C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes\Hello.class
+[debug] 	SystemTop$$anon$1.class
+[debug] 	  C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes\SystemTop$$anon$1.class
+[debug] 	SystemTop.class
+[debug] 	  C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes\SystemTop.class
+[debug] Done packaging.

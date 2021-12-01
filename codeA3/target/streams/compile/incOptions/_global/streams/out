@@ -1,0 +1,11 @@
+[debug] Created transactional ClassFileManager with tempDir = C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes.bak
+[debug] About to delete class files:
+[debug] 	Accelerator.class
+[debug] 	Accelerator$$anon$1.class
+[debug] We backup class files:
+[debug] 	Accelerator.class
+[debug] 	Accelerator$$anon$1.class
+[debug] Registering generated classes:
+[debug] 	Accelerator.class
+[debug] 	Accelerator$$anon$1.class
+[debug] Removing the temporary directory used for backing up class files: C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes.bak

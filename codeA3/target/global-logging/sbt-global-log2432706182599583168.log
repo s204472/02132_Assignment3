@@ -1,0 +1,12 @@
+[debug] > Exec(test:runMain SystemTopTester, None, None)
+[debug] Evaluating tasks: Test / runMain
+[warn] sbt 0.13 shell syntax is deprecated; use slash syntax instead: Test / runMain
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[info] compiling 1 Scala source to C:\Users\ander\OneDrive - Danmarks Tekniske Universitet\02132 Computer System\Assignment 3\Code github\02132_Assignment3\codeA3\target\scala-2.12\classes ...
+[warn] there were two deprecation warnings (since 3.0); re-run with -deprecation for details
+[warn] there were 49 feature warnings; re-run with -feature for details
+[warn] two warnings found
+[info] done compiling
+[warn] multiple main classes detected: run 'show discoveredMainClasses' to see the list
+[success] Total time: 4 s, completed Dec 1, 2021 1:08:49 PM
+[debug] > Exec(idea-shell, None, None)
